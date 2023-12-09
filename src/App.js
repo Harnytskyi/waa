@@ -3,7 +3,7 @@ import {useWebAuthn} from 'react-hook-webauthn'
 import './App.css';
 
 const rpOptions = {
-  rpId: 'https://harnytskyi.github.io/',
+  rpId: 'harnytskyi.github.io',
   rpName: 'my super app'
 }
 
