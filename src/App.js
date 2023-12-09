@@ -1,20 +1,49 @@
+import React, { useCallback, useState } from 'react';
+import {useWebAuthn} from 'react-hook-webauthn'
 import './App.css';
 
-function saveCredentials(){
-  console.log("credentials will be saved");
-}
-
-function retrieveCredentials(){
-  console.log("");
+const rpOptions = {
+  rpId: 'localhost',
+  rpName: 'my super app'
 }
 
 function App() {
+  const [login, setLogin] = useState('')
+  const {getCredential, getAssertion} = useWebAuthn(rpOptions)
+
+  const onChangeLogin = useCallback((e) => {
+    setLogin(e.target.value)
+  }, [])
+
+  const saveCredentials = useCallback(async  () => {
+    const credential = await getCredential({
+      challenge: 'stringFromServer',
+      userDisplayName: login,
+      userId: login,
+      userName: login
+    })
+    console.log(credential)
+  }, [getCredential, login])
+
+  const retrieveCredentials = useCallback(async () => {
+    const assertion =  await getAssertion({challenge: 'stringFromServer'})
+    console.log(assertion)
+  }, [getAssertion])
+
   return (
     <div className="App">
-      <input type="text" id="username" />
-      <input type="password" id="password" />
-      <button onClick={saveCredentials}>Save credentials</button>
-      <button onClick={retrieveCredentials}>Retrieve credentials</button>
+      <main>
+        <div className="section">
+          <input onInput={onChangeLogin} placeholder="login" type="text" id="username"/>
+        </div>
+         <div className="section">
+           <button onClick={saveCredentials} type="button">Save credentials</button>
+         </div>
+        <div className="del"/>
+        <div className="section">
+          <button onClick={retrieveCredentials} type="button">Retrieve credentials</button>
+        </div>
+      </main>
     </div>
   );
 }
