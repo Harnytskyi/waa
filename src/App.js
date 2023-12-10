@@ -23,11 +23,17 @@ function App() {
       userName: login
     })
     console.log(credential)
+    alert("Saved: " + login)
+    let savedId = document.getElementById('savedId');
+    savedId.innerHTML = login;    
   }, [getCredential, login])
 
   const retrieveCredentials = useCallback(async () => {
     const assertion =  await getAssertion({challenge: 'stringFromServer'})
     console.log(assertion)
+    let retrievedId = document.getElementById('retrievedId');
+    retrievedId.innerHTML = assertion.id;
+    alert("Retrieved " + assertion.id) 
   }, [getAssertion])
 
   return (
@@ -42,6 +48,12 @@ function App() {
         <div className="del"/>
         <div className="section">
           <button onClick={retrieveCredentials} type="button">Retrieve credentials</button>
+        </div>
+        <div className="credentials">
+          <span>Saved credential: </span>
+          <span id="savedId"></span>
+          <span>Retrieve credential: </span>
+          <span id="retrievedId"></span>
         </div>
       </main>
     </div>
