@@ -23,9 +23,11 @@ function App() {
       userName: login
     })
     console.log(credential)
-    alert("Saved: " + login)
+    alert("Saved: " + login + " " + credential.id)
+    let savedUsername = document.getElementById('savedUsername');
+    savedUsername.innerHTML = login;
     let savedId = document.getElementById('savedId');
-    savedId.innerHTML = login;    
+    savedId.innerHTML = credential.id;   
   }, [getCredential, login])
 
   const retrieveCredentials = useCallback(async () => {
@@ -50,9 +52,11 @@ function App() {
           <button onClick={retrieveCredentials} type="button">Retrieve credentials</button>
         </div>
         <div className="credentials">
-          <span>Saved credential: </span>
+          <span>Saved username: </span>
+          <span id="savedUsername"></span>
+          <span>Saved id: </span>
           <span id="savedId"></span>
-          <span>Retrieve credential: </span>
+          <span>Retrieve id: </span>
           <span id="retrievedId"></span>
         </div>
       </main>
